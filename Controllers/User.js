@@ -1,5 +1,11 @@
+require('dotenv').config();
 const UserModel=require('../Model/User');
 const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken');
+const generateAccessToken=(id)=>{
+    const secretKey=process.env.SECRET_KEY;
+    return jwt.sign({id},secretKey);
+}
 exports.PostUserDetails=async(req,res,next)=>{
     try{
         const firstName=req.body.firstName;
@@ -42,7 +48,8 @@ exports.Login=async(req,res,next)=>{
         if(!isPasswordValid){
             return res.status(200).json({"message":"Invalid Credentials"});
         }
-        return res.status(200).json({ message: 'Login successful',user});
+        const token=generateAccessToken(user._id);
+        return res.status(200).json({ message: 'Login successful', token,user});
     }catch(err){
         return res.status(400).json({error:err.message});
     }

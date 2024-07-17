@@ -1,7 +1,15 @@
 const express=require('express');
 const router=express.Router();
 const UserControllers=require('../Controllers/User');
+const UserPostControllers=require('../Controllers/Post');
 router.post('/user_details',UserControllers.PostUserDetails);
 router.post('/login_details',UserControllers.Login);
 router.put('/update_password',UserControllers.UpdatePassword);
+router.post('/post',UserPostControllers.UserPost);
+router.get('/get_post',UserPostControllers.getPost);
+router.get('/get_post/:id', UserPostControllers.getPostById);
+router.delete('/post/:id', UserPostControllers.deletePost);
+router.put('/post/like',UserPostControllers.LikedPost);
+router.put('/post/comment',UserPostControllers.CommentPost);
+router.get('/get/comment',UserPostControllers.getComment);
 module.exports=router;
